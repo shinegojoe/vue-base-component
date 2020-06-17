@@ -1,0 +1,14 @@
+@mixin text-style($szie, $color)
+  font-family: Helvetica
+  font-size: $szie
+  font-weight: normal
+  font-stretch: normal
+  font-style: normal
+  line-height: normal
+  letter-spacing: normal
+  color: $color
+
+.title-wrapper
+  @include text-style($szie: 24px, $color: $primary)
+  margin-top: 50px
+  margin-bottom: 30px
