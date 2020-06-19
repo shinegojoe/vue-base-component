@@ -1,19 +1,22 @@
 <template>
   <div>
-    <input class="text-input" v-model="text">
+    <input class="text-input" :value="initText" @input="update">
   </div>
 </template>
 
 <script>
 export default {
+  props: ['initText'],
+
   data: function () {
     return {
       text: ''
     }
   },
 
-  watch: {
-    text: function () {
+  methods: {
+    update: function (event) {
+      this.text = event.target.value
       this.$emit('input', this.text)
     }
   }

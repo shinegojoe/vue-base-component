@@ -2,11 +2,16 @@
   <div class="dropdown-wrapper">
     <div @click="menuBtnClick" class="menu-btn-wrapper">
       <button class="menu-btn"
-        >{{title}}
+        >{{listTitle}}
       </button>
-      <div class="icon-wrapper" v-bind:class="{'icon-open': isOpen}">
+      <!-- <div class="icon-wrapper" v-bind:class="{'icon-open': isOpen}">
         <i class="fas fa-angle-double-down"></i>
-      </div>
+      </div> -->
+      <IconWrapper
+        class="icon-wrapper"
+        v-bind:class="{'icon-open': isOpen}"
+        id="arrow-down2" color="#414141" w="28" h="28">
+      </IconWrapper>
 
     </div>
     <div class="item-list-wrapper" v-if="isOpen">
@@ -21,21 +26,45 @@
 </template>
 
 <script>
+import IconWrapper from '@/components/IconWrapper.vue'
+
 export default {
   props: {
     itemList: {
       type: Array,
       defalut: [1, 2, 5]
+    },
+    title: {
+
     }
+  },
+
+  components: {
+    IconWrapper
   },
 
   data: function () {
     return {
-      title: 'xxx',
       // itemList: [1, 23, 5],
-      isOpen: false
+      isOpen: false,
+      xx: undefined
     }
   },
+  computed: {
+    listTitle: {
+      get: function () {
+        return this.title
+      }
+      // set: function (val) {
+      //   this.xx = this.checkItemState()
+      // }
+    }
+  },
+  // watch: {
+  //   initTitle: function (val) {
+  //     this.title = val
+  //   }
+  // },
 
   methods: {
     closeOutside: function () {
@@ -53,7 +82,7 @@ export default {
 
     itemClick: function (item) {
       // console.log('item', item)
-      this.title = item.title
+      // this.title = item.title
       this.$emit('itemUpdate', item)
     },
 
@@ -69,7 +98,7 @@ export default {
 
   mounted: function () {
     // console.log('this. itemlist', this.itemList)
-    this.title = this.checkItemState()
+    // this.title = this.checkItemState()
     // for (const item of this.itemList) {
     //   if (item.isSelected) {
     //     this.title = item.title
@@ -104,7 +133,7 @@ export default {
   .menu-btn-wrapper
     width: 100%
     display: grid
-    grid-template-columns: minmax(20px, auto) 10px 10px minmax(5px, 10px)
+    grid-template-columns: minmax(20px, auto) 10px 20px minmax(5px, 10px)
     grid-template-rows: auto
 
     // justify-content: space-between
@@ -130,6 +159,7 @@ export default {
       letter-spacing: normal
       color: #414141
       text-align: left
+      text-transform: uppercase
 
   .icon-wrapper
     // position: relative
@@ -173,6 +203,7 @@ export default {
       padding-top: 5px
       padding-bottom: 5px
       padding-left: 6px
+      text-transform: uppercase
 
       // border-bottom: 1px solid
       //box-sizing: border-box
