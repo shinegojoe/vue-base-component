@@ -13,7 +13,7 @@
         <td class="text-field">Single Checkbox</td>
         <td><OptionSlider
           class="switch-wrapper"
-          id="testId" v-model="singleCheckbox" :ischecked="singleCheckbox"></OptionSlider>
+          id="testId" v-model="singleCheckbox" :isChecked="singleCheckbox"></OptionSlider>
         </td>
         <td class="text-field">{{singleCheckbox}}</td>
       </tr>
@@ -55,12 +55,33 @@
         </td>
 
         <td class="text-field">{{dropListSelected}}</td>
+
+      </tr>
+        <tr class="item">
+        <td class="text-field">Snackbar</td>
+        <td>
+          <button @click="showSnackbar" class="btn-base">snackbar</button>
+        </td>
+
+        <!-- <td class="text-field">{{dropListSelected}}</td> -->
+      </tr>
+
+      <tr class="item">
+        <td class="text-field">Confirm</td>
+        <td>
+          <button @click="showConfirm" class="btn-base">confirm</button>
+        </td>
+
+        <!-- <td class="text-field">{{dropListSelected}}</td> -->
       </tr>
 
     </div>
 
     <button @click="toPage(1)">p1</button>
     <button @click="toPage(2)">p2</button>
+    <Snackbar v-model="isSnackbarShow" :isShow="isSnackbarShow"></Snackbar>
+    <Confirm v-model="isConfirm" :isShow="isConfirm" v-on:confirm="confirmFn">Are you sure?</Confirm>
+
   </div>
 </template>
 
@@ -73,6 +94,8 @@ import DropdownList from '@/components/DropdownList'
 import CheckboxHelper from '@/models/checkboxHelper'
 import RadioButton from '@/components/RadioButton'
 import OptionSlider from '@/components/OptionSlider'
+import Snackbar from '@/components/Snackbar'
+import Confirm from '@/components/Confirm'
 
 export default {
   name: 'Home',
@@ -82,7 +105,9 @@ export default {
     MultiCheckbox,
     DropdownList,
     RadioButton,
-    OptionSlider
+    OptionSlider,
+    Snackbar,
+    Confirm
   },
 
   data: function () {
@@ -110,12 +135,28 @@ export default {
         { title: 'item1', val: 123 },
         { title: 'item2', val: 566 }
       ],
-      dropListSelected: ''
+      dropListSelected: '',
+
+      isSnackbarShow: false,
+      isConfirm: false
 
     }
   },
 
   methods: {
+    showSnackbar: function () {
+      this.isSnackbarShow = true
+    },
+
+    showConfirm: function () {
+      this.isConfirm = true
+    },
+
+    confirmFn: function () {
+      this.isConfirm = false
+      console.log('do something...')
+    },
+
     multiCheckboxUpdate: function (item) {
       // console.log('item', item)
       // const index = parseInt(this.multiSelected.indexOf(item))
