@@ -35,6 +35,7 @@
         <td class="text-field">Radiobox</td>
         <td v-for="(item, index) in radioBoxData" :key="index">
           <RadioButton
+            class="radio-wrapper-square"
             name="xxx"
             :id="item.id"
             :val="item.id">
