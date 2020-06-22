@@ -36,12 +36,13 @@
         <td v-for="(item, index) in radioBoxData" :key="index">
           <RadioButton
             class="radio-wrapper-square"
+            v-model="radioSelected"
             name="xxx"
             :id="item.id"
             :val="item.id">
           </RadioButton>
         </td>
-        <td class="text-field">{{this.radioSelected}}</td>
+        <td class="text-field">{{radioSelected}}</td>
       </tr>
 
       <tr class="item">
@@ -140,7 +141,6 @@ export default {
 
       isSnackbarShow: false,
       isConfirm: false
-
     }
   },
 

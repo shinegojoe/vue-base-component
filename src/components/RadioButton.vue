@@ -13,7 +13,8 @@ export default {
 
   methods: {
     update: function (event) {
-      console.log(event.target.value)
+      // console.log(event.target.value)
+      this.$emit('input', event.target.value)
     }
   }
 
