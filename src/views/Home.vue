@@ -20,13 +20,18 @@
 
       <tr class="item">
         <td class="text-field">MultiCheckbox</td>
+        <button @click="selectAll" class="btn-base">All</button>
         <td v-for="(item, index) in multiBoxData" :key="index">
-          <MultiCheckbox
+          <!-- <MultiCheckbox
             class="checkbox-wrapper"
             v-on:update="multiCheckboxUpdate"
             :id="item.id"
             :initState="item.state">
-          </MultiCheckbox>
+          </MultiCheckbox> -->
+          <div class="checkbox-wrapper">
+            <input v-model="multiSelected" type="checkbox" :id="item.id" :value="item.id" :checked="item.state" />
+          </div>
+
         </td>
         <td class="text-field">{{multiSelected}}</td>
       </tr>
@@ -34,13 +39,16 @@
       <tr class="item">
         <td class="text-field">Radiobox</td>
         <td v-for="(item, index) in radioBoxData" :key="index">
-          <RadioButton
+          <!-- <RadioButton
             class="radio-wrapper-square"
             v-model="radioSelected"
             name="xxx"
             :id="item.id"
             :val="item.id">
-          </RadioButton>
+          </RadioButton> -->
+          <div class="radio-wrapper-square">
+            <input v-model="radioSelected" name="xxx" type="radio" :id="item.id" :value="item.id">
+          </div>
         </td>
         <td class="text-field">{{radioSelected}}</td>
       </tr>
@@ -131,7 +139,7 @@ export default {
         { id: 'qq2', state: false },
         { id: 'qq3', state: false }
       ],
-      radioSelected: '',
+      radioSelected: 'qq1',
 
       dropListData: [
         { title: 'item1', val: 123 },
@@ -168,6 +176,25 @@ export default {
       //   this.multiSelected.splice(index, 1)
       // }
       this.multiSelected = this.checkboxHelper.multiCheckbox(item, this.multiSelected)
+    },
+
+    selectAll: function () {
+      // this.multiBoxData = [
+      //   { id: 'item1', state: true },
+      //   { id: 'item2', state: true },
+      //   { id: 'item3', state: true }
+      // ]
+      const res = this.multiBoxData.map((item, index, arr) => {
+        const x = document.getElementById(item.id)
+        console.log(x)
+        // x.setAttribute('checked', true)
+        // x.checked = true
+        // console.log(x.checked)
+
+        return item.id
+      })
+      console.log('res', res)
+      this.multiSelected = res
     },
 
     radioboxUpdate: function (item) {
