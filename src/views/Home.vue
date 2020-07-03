@@ -5,7 +5,14 @@
       <caption class="title-wrapper">Vue base components</caption>
       <tr class="item">
         <td class="text-field">InputField</td>
-        <td class=""><InputField v-model="text"></InputField></td>
+        <td class="">
+          <InputField
+            v-model="text"
+            type=""
+            initText="xx"
+            placeholder="place">
+          </InputField>
+        </td>
         <td>{{text}}</td>
       </tr>
 
@@ -29,6 +36,7 @@
             :initState="item.state">
           </MultiCheckbox> -->
           <div class="checkbox-wrapper">
+            <!-- {{item.state}} -->
             <input v-model="multiSelected" type="checkbox" :id="item.id" :value="item.id" :checked="item.state" />
           </div>
 
@@ -60,7 +68,7 @@
             class="text-field dropdown-wrapper"
             v-on:itemUpdate="dropListUpdate"
             :itemList="dropListData"
-            title="item2">
+            :title="dropListTitle">
           </DropdownList>
         </td>
 
@@ -81,9 +89,39 @@
         <td>
           <button @click="showConfirm" class="btn-base">confirm</button>
         </td>
-
         <!-- <td class="text-field">{{dropListSelected}}</td> -->
       </tr>
+
+      <tr class="item">
+        <td class="text-field">show cover</td>
+        <td>
+          <button @click="showCover" class="btn-base cover-btn">cover switch</button>
+        </td>
+      </tr>
+
+      <tr class="item">
+        <td class="text-field">multi dropdown</td>
+        <td>
+          <MultiSelectDropDown
+            class="dropdown-wrapper"
+            v-on:itemUpdate="multiDropUpdate"
+            :itemList="multiDropData"
+            :title="multiDropTitle"
+          ></MultiSelectDropDown>
+        </td>
+      </tr>
+
+<!-- 
+      <tr class="item">
+        <TabPage></TabPage>
+      </tr> -->
+
+      <!-- <DataTable
+        :titleList="titleList"
+        :tableData="tableData">
+      </DataTable> -->
+
+
 
     </div>
 
@@ -91,6 +129,8 @@
     <button @click="toPage(2)">p2</button>
     <Snackbar v-model="isSnackbarShow" :isShow="isSnackbarShow"></Snackbar>
     <Confirm v-model="isConfirm" :isShow="isConfirm" v-on:confirm="confirmFn">Are you sure?</Confirm>
+    <!-- <div class="xx"></div> -->
+    <div v-bind:class="{'bg-cover': isCoverOn}"></div>
 
   </div>
 </template>
@@ -106,6 +146,9 @@ import RadioButton from '@/components/RadioButton'
 import OptionSlider from '@/components/OptionSlider'
 import Snackbar from '@/components/Snackbar'
 import Confirm from '@/components/Confirm'
+import DataTable from '@/components/DataTable.vue'
+import TabPage from '@/components/TabPage.vue'
+import MultiSelectDropDown from '@/components/MultiSelectDropDown.vue'
 
 export default {
   name: 'Home',
@@ -117,7 +160,10 @@ export default {
     RadioButton,
     OptionSlider,
     Snackbar,
-    Confirm
+    Confirm,
+    DataTable,
+    TabPage,
+    MultiSelectDropDown
   },
 
   data: function () {
@@ -128,11 +174,15 @@ export default {
       singleCheckbox: false,
 
       multiBoxData: [
-        { id: 'item1', state: false },
+        { id: 'item1', state: true },
         { id: 'item2', state: false },
         { id: 'item3', state: false }
       ],
-      multiSelected: [],
+
+      /*
+      v-model 不綁checked, 會綁已選的值
+      */
+      multiSelected: ['item1'],
 
       radioBoxData: [
         { id: 'qq1', state: false },
@@ -146,13 +196,49 @@ export default {
         { title: 'item2', val: 566 }
       ],
       dropListSelected: '',
+      dropListTitle: 'defalut',
+
+      /*
+       checkbox id must be uniqe, here id is the value of title
+      */
+      multiDropData: [
+        { title: 'item1xxx', val: 123 },
+        { title: 'item2xxx', val: 566 },
+        { title: 'item3xxx', val: 566 },
+        { title: 'item4xxx', val: 566 },
+        { title: 'item5xxx', val: 566 }
+      ],
+      multiDropSelected: '',
+      multiDropTitle: 'defalut',
 
       isSnackbarShow: false,
-      isConfirm: false
+      isConfirm: false,
+      isCoverOn: false,
+
+      titleList: [
+        { name: 'no', isSelected: false },
+        { name: 'status', isSelected: false },
+        { name: 'ip', isSelected: false },
+        { name: 'sn', isSelected: false },
+        { name: 'name', isSelected: false },
+        { name: 'type', isSelected: false },
+        { name: 'auth', isSelected: false },
+        { name: 'action', isSelected: false }
+      ],
+      tableData: [
+        { id: 7, deviceId: 'dce2ac0163c2', model: 'hdc713', title: 'dce2ac0163c2', address: '192.168.2.226', auth: true, status: true },
+        { id: 8, deviceId: 'dce2ac0163c3', model: 'hdc713', title: 'dce2ac0163c2', address: '192.168.2.227', auth: true, status: true },
+        { id: 9, deviceId: 'dce2ac0163c4', model: 'hdc713', title: 'dce2ac0163c2', address: '192.168.2.228', auth: true, status: true },
+        { id: 10, deviceId: 'dce2ac0163c6', model: 'hdc713', title: 'dce2ac0163c2', address: '192.168.2.229', auth: true, status: true }
+      ]
     }
   },
 
   methods: {
+    showCover: function () {
+      this.isCoverOn = !this.isCoverOn
+    },
+
     showSnackbar: function () {
       this.isSnackbarShow = true
     },
@@ -220,6 +306,30 @@ export default {
     dropListUpdate: function (item) {
       console.log(' droplist', item)
       this.dropListSelected = item
+      this.dropListTitle = item.title
+    },
+
+    copy: function (arr, maxIndex) {
+      let arrCopy = ''
+      for (let i = 0; i < maxIndex; i++) {
+        arrCopy += arr[i]
+      }
+      return arrCopy
+    },
+
+    multiDropUpdate: function (data) {
+      console.log('multiDropUpdate', data)
+      let title = ''
+      for (const item of data) {
+        title += item
+        title += ','
+      }
+      if (title.length > 20) {
+        title = this.copy(title, 20)
+        title += '......'
+      }
+
+      this.multiDropTitle = title
     },
 
     toPage: function (id) {
@@ -232,6 +342,7 @@ export default {
 </script>
 
 <style scoped lang="sass">
+
   .home-container
     background-color: #F7FAFF
     .item
@@ -240,6 +351,8 @@ export default {
       justify-content: space-between
       align-items: center
       margin: 10px 0
+    .cover-btn
+      z-index: 101
 
     // padding-top: 100px
 </style>

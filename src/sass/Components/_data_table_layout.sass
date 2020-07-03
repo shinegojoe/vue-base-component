@@ -1,0 +1,62 @@
+@mixin text-style2($color, $size, $weight)
+  font-family: Helvetica
+  font-size: $size
+  font-weight: $weight
+  font-stretch: normal
+  font-style: normal
+  line-height: normal
+  letter-spacing: normal
+  color: $color
+.data-table-wrapper
+  background-color: white
+  margin-top: 10px
+  // padding: 0px 16px
+  border-radius: 3px
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.5)
+  .head-layout
+    display: grid
+    padding: 0 16px
+    // grid-template-columns: repeat(9, auto)
+    grid-template-columns: 45px 50px 95px 130px 120px 150px 80px 80px repeat(1, auto)
+    border-bottom: 1px solid #efefef
+    grid-template-rows: 40px
+    &:first-child
+      border-bottom: 1px solid #95bab9
+
+  .xx
+    display: flex
+    align-items: center
+
+  .item-wrapper
+      display: flex
+      height: 40px
+      align-items: center
+      border-bottom: 1px solid #efefef
+      &:first-child
+        border-bottom: 1px solid $primary
+      
+  .title-text
+      // color: #787878
+      @include text-style2($color: #4c4948, $size: 12px, $weight: normal)
+      text-transform: capitalize
+
+  .tab-head
+    display: flex
+    .icon
+      margin-top: 2px
+      cursor: pointer
+      transition: 0.5s
+  .action-wrapper
+    display: flex
+    // background-color: red
+    align-items: center
+  
+  .text-offline
+    color: #cc1129
+  .text-online
+    color: #4fc2a1
+  .item-hover
+    &:hover
+      background-color: rgba(147, 255, 224, 0.2)
+  .sort-clicked
+    transform: rotate(180deg)

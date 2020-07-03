@@ -4,9 +4,7 @@
       <button class="menu-btn"
         >{{title}}
       </button>
-      <!-- <div class="icon-wrapper" v-bind:class="{'icon-open': isOpen}">
-        <i class="fas fa-angle-double-down"></i>
-      </div> -->
+
       <IconWrapper
         class="icon-wrapper"
         v-bind:class="{'icon-open': isOpen}"
@@ -15,9 +13,10 @@
 
     </div>
     <div class="item-list-wrapper" v-if="isOpen">
-      <div  v-for="(item, index) in itemList" :key="index">
-        <div @click="itemClick($event, item)" class="item">
-          {{item.title}}
+      <div v-for="(item, index) in itemList" :key="index">
+        <div @click="itemClick($event, item)" class="item checkbox-wrapper">
+            <input type="checkbox" :id="item.title" :value="item.title" :checked="true" />
+            <span class="text-field">{{item.title}}</span>
         </div>
 
       </div>
@@ -47,31 +46,22 @@ export default {
     return {
       // itemList: [1, 23, 5],
       isOpen: false,
-      xx: undefined
+      selectedList: []
     }
   },
 
   methods: {
-
-    closeAll: function () {
-      const xx = this.$store.getters['closeOutside/menuList']
-      for (const x of xx) {
-        if (x !== this) {
-          x.qq()
-        }
-        console.log(x)
-      }
-    },
-
-    qq: function () {
-      console.log('qq')
-      this.isOpen = false
-    },
-
     closeOutside: function () {
       if (this.isOpen) {
         this.isOpen = false
       }
+    },
+
+    init: function () {
+      const selectedList = this.itemList.map((item, index, arr) => {
+        return item.title
+      })
+      return selectedList
     },
 
     menuBtnClick: function (el) {
@@ -79,17 +69,30 @@ export default {
       // console.log('el')
       this.isOpen = !this.isOpen
       el.stopPropagation()
-      this.closeAll()
-
     },
 
     itemClick: function (e, item) {
-      console.log('e', e)
       console.log('item', item)
-      // this.title = item.title
-      // e.stopPropagation()
+      const checkboxEle = document.querySelector(`#${item.title}`)
+      // console.log('qq', checkboxEle)
 
-      this.$emit('itemUpdate', item)
+      // console.log('qq', checkboxEle.checked)
+      checkboxEle.checked = !checkboxEle.checked
+
+      e.stopPropagation()
+      this.selectedList = this.multiCheckbox(item.title, this.selectedList)
+      this.$emit('itemUpdate', this.selectedList)
+    },
+
+    multiCheckbox (item, arr) {
+      const index = parseInt(arr.indexOf(item))
+      // console.log('index', index)
+      if (index === -1) {
+        arr.push(item)
+      } else {
+        arr.splice(index, 1)
+      }
+      return arr
     },
 
     checkItemState: function () {
@@ -102,9 +105,15 @@ export default {
     }
   },
 
+  mounted: function () {
+    this.selectedList = this.init()
+    this.$emit('itemUpdate', this.selectedList)
+
+    // console.log('selectedList', this.selectedList)
+  },
+
   created () {
     window.addEventListener('click', this.closeOutside)
-    this.$store.commit('closeOutside/menuList', this)
   },
 
   beforeDestroy () {
