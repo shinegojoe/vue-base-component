@@ -22,13 +22,12 @@ class CloseOutsideManager {
       if (current !== item) {
         console.log('item', item)
         item.closeOutside()
-
       }
     }
   }
 
   remove (menu) {
-
+    this.menuList.delete(menu._uid)
   }
 }
 

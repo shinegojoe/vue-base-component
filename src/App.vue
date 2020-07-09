@@ -26,14 +26,19 @@
   #nav
     grid-area: nav
     height: 100px
-    background-color: green
+    background-color: rgb(0, 0, 10)
 
   .side-bar
     grid-area: side-bar
     width: 0px
+    visibility: hidden
+    opacity: 0
     height: calc( 100vh - 100px )
-    background-color: black
+    background-color: gray
     transition: 0.5s
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5)
+    background-color: white
+
     // animation-name: qqq
     // animation-duration: 0.5s
     // animation-direction: alternate

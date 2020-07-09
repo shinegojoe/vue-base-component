@@ -18,6 +18,7 @@ export default {
   },
 
   methods: {
+
     sidebarSwitch: function () {
       const isSidebarOpen = this.$store.getters['sidebar/isSidebarOpen']
       this.$store.commit('sidebar/isSidebarOpen', !isSidebarOpen)
@@ -25,10 +26,15 @@ export default {
       console.log('xxx', sidebarRef)
       if (isSidebarOpen) {
         sidebarRef.style.width = "0px"
+        sidebarRef.style.visibility = "hidden"
+        sidebarRef.style.opacity = "0"
       } else {
+        sidebarRef.style.opacity = "1"
+        sidebarRef.style.visibility = "visible"
         sidebarRef.style.width = "200px"
       }
     }
   }
+
 }
 </script>

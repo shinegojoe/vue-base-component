@@ -50,7 +50,7 @@ export default {
 
     qqq: function (e) {
       // console.log('clicked')
-      e.target.blur()
+      // e.target.blur()
       this.isOpen = false
       this.$emit('selectUpdate', {
         id: this.id,
@@ -79,13 +79,13 @@ export default {
     this.init()
   },
 
-  created () {
-    window.addEventListener('click', this.closeOutside)
-  },
+  // created () {
+  //   window.addEventListener('click', this.closeOutside)
+  // },
 
-  beforeDestroy () {
-    window.removeEventListener('click', this.closeOutside)
-  }
+  // beforeDestroy () {
+  //   window.removeEventListener('click', this.closeOutside)
+  // }
 
 }
 </script>
@@ -127,6 +127,7 @@ export default {
     font-size: 20px
     // box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2)
     -webkit-appearance: none
+    -moz-appearance: none
     appearance: none
     outline: none
 

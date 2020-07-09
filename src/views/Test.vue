@@ -1,8 +1,10 @@
 <template>
   <div>
-    <SelectTest v-on:selectUpdate="update" :id="1" :dataList="testData"></SelectTest>
-    <SelectTest v-on:selectUpdate="update" :id="2" :dataList="testData"></SelectTest>
-    <MultiSelect v-on:selectUpdate="test2Update" :dataList="testData2"></MultiSelect>
+    <!-- <SelectTest v-on:selectUpdate="update" :id="1" :dataList="testData"></SelectTest> -->
+    <!-- <SelectTest v-on:selectUpdate="update" :id="2" :dataList="testData"></SelectTest> -->
+    <SelectTest2 v-on:selectUpdate="update" :id="2" :testData="testData4"></SelectTest2>
+
+    <!-- <MultiSelect v-on:selectUpdate="test2Update" :dataList="testData2"></MultiSelect> -->
     <!-- <MultiSelect :dataList="testData3"></MultiSelect> -->
 
   </div>
@@ -10,12 +12,15 @@
 
 <script>
 import SelectTest from '@/components/SelectTest.vue'
+import SelectTest2 from '@/components/SelectTest2.vue'
+
 import MultiSelect from '@/components/MultiSelect.vue'
 import { CloseOutsideManager } from '@/models/closeOutsideManager.js'
 
 export default {
   components: {
     SelectTest,
+    SelectTest2,
     MultiSelect
   },
 
@@ -38,7 +43,21 @@ export default {
           { title: 'item23', state: false },
           { title: 'item33', state: false }
         ]
-      }
+      },
+
+      testData4: [
+        { name: 'item1', isChecked: false },
+        { name: 'item2', isChecked: true },
+        { name: 'item3', isChecked: false }
+      ],
+
+      testData5: [
+        { name: 'item111', isChecked: true },
+        { name: 'item2222', isChecked: true },
+        { name: 'item34444', isChecked: true },
+        { name: 'zz', isChecked: false }
+
+      ],
 
     }
   },
@@ -46,6 +65,7 @@ export default {
   methods: {
     update: function (data) {
       console.log(data)
+      this.testData4 = this.testData5
     },
 
     test2Update: function (data) {
