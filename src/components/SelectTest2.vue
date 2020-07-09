@@ -7,38 +7,41 @@
       </div>
     </div>
 
-    <div v-for="(item, index) in testData" :key="index+'_'" >
-      <div class="checkbox-wrapperxx">
-        <div class="test" v-bind:class="{ 'menu-open': isOpen }" @click="xxx($event, item)">
-          <div class="zzz" v-bind:class="{ 'ccc': item.isChecked}"></div>
-        </div>
-
+    <div class="item-list-wrapper" v-bind:class="{ 'menu-open': isOpen }">
+      <div v-for="(item, index) in dataList" :key="index+'_'" >
+          <div class="row"  @click="itemClick($event, item)">
+            <div class="box-style" v-bind:class="{ 'box-checked': item.isChecked}"></div>
+            <div class="item-text">{{item.name}}</div>
+          </div>
       </div>
+
     </div>
 
-    <div v-for="(item, index) of selectedList" :key="index">
+
+    <!-- <div v-for="(item, index) of selectedList" :key="index">
       {{item}}
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 export default {
-  props: ['testData'],
+  props: ['testData', 'id'],
   data: function () {
     return {
       title: 'open',
       isOpen: false,
-      selectedList: undefined
+      selectedList: undefined,
+      maxLength: 20
     }
   },
 
-  watch: {
-    testData: function () {
-      console.log('www')
-      this.selectedListInit()
-    }
-  },
+  // watch: {
+  //   testData: function () {
+  //     console.log('www')
+  //     this.selectedListInit()
+  //   }
+  // },
 
   methods: {
 
@@ -50,13 +53,38 @@ export default {
         }
       }
     },
+    updateTitle: function () {
+      this.title = ''
+      for (const item of this.selectedList.values()) {
+        if (item.isChecked) {
+          const titleLength = this.title.length + item.name.length
+          if (titleLength > this.maxLength) {
+            this.title = this.title.slice(0, this.title.length - 2)
+            this.title += ' .... '
+            // this.title = this.title.slice(0, this.title.length - 2)
+            break
+          } else {
+            this.title += item.name + ' , '
+          }
+        }
+      }
+      console.log('title', this.title.length)
+      this.title = this.title.slice(0, this.title.length - 2)
+
+      // if (this.title.length > this.maxLength) {
+      //   this.title = this.title.slice(0, this.maxLength)
+      //   this.title += ' ... '
+      // } else {
+      //   this.title = this.title.slice(0, this.title.length - 2)
+      // }
+    },
 
     menuClick: function (e) {
       this.isOpen = !this.isOpen
       e.stopPropagation()
     },
 
-    xxx: function (e, item) {
+    itemClick: function (e, item) {
       console.log('item', item)
       item.isChecked = !item.isChecked
       // this.isOpen = false
@@ -66,14 +94,28 @@ export default {
         this.selectedList.delete(item.name)
       }
       this.title = item.name
-      this.$emit('selectUpdate', this.selectedList.values())
+      const data = {
+        id: this.id,
+        selectedList: this.selectedList.values()
+      }
+      this.$emit('selectUpdate', data)
+      // this.$emit('selectUpdate', this.selectedList.values())
       e.stopPropagation()
-
     },
 
     closeOutside: function () {
       if (this.isOpen) {
         this.isOpen = false
+      }
+    }
+  },
+
+  computed: {
+    dataList: {
+      get: function () {
+        this.selectedListInit()
+        this.updateTitle()
+        return this.testData
       }
     }
   },
@@ -92,43 +134,76 @@ export default {
 <style lang="sass" scoped>
 
 .menu-btn
-  width: 200px
-  height: 40px
+  width: 330px
+  height: 26px
   border: 1px solid
   box-sizing: border-box
   display: flex
   align-items: center
+  position: relative
+  border-radius: 5px
+  border: solid 1px #00a487
+  background-color: rgba(147, 255, 224, 0.2)
+  .menu-title
+    font-size: 12px
+    color: #00a487
+    margin-left: 16px
 
-.checkbox-wrapperxx
-  .test
+.item-list-wrapper
+  margin-top: 3px
+  border-radius: 5px
+  box-shadow: 1px 2px 2px 0 rgba(0, 0, 0, 0.5)
+  background-color: white
+  width: 330px
+  visibility: hidden
+
+.menu-open
+  visibility: visible
+
+.row
+  width: 330px
+  height: 26px
+  display: flex
+  align-items: center
+  // justify-content: space-around
+  // background-color: white
+  // margin: 10px
+
+  &:hover
+    background-color: rgba(147, 255, 224, 0.2)
+  // visibility: hidden
+  .item-text
+    margin-left: 16px
     display: flex
     align-items: center
-    width: 200px
-    height: 20px
-    background-color: red
-    visibility: hidden
+    font-size: 12px
+    color: #00a487
+
+    justify-content: center
+
   .menu-open
     visibility: visible
-  .zzz
-    width: 16px
-    height: 16px
-    // background-color: blue
-    border: 1px solid
+  .box-style
+    margin-left: 16px
+    width: 10px
+    height: 10px
+    background-color: #00615d
+    border: 1px solid #979797
     position: relative
     &::after
       content: ''
-      width: 9px
-      height: 5px
+      width: 6px
+      height: 3px
       position: absolute
       top: 2px
       left: 2px
-      border: 2px solid white
+      border: 1px solid white
       border-top: none
       border-right: none
       background: transparent
       opacity: 0
       transform: rotate(-45deg)
-  .ccc
+  .box-checked
     &::after
       opacity: 1
   .title
@@ -137,13 +212,17 @@ export default {
     // left: 0
     // margin-left: -120px
 .icon-wrapper
+  position: absolute
+  left: 300px
+  top: 1px
   display: flex
   align-items: center
   justify-content: flex-end
-  margin-left: 130px
+  // margin-left: 130px
   margin-bottom: 5px
   transform: rotate(0deg)
   transition: 0.5s
+  color: #00a487
   // background-color: red
   // width: 100%
 

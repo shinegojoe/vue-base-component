@@ -2,7 +2,13 @@
   <div>
     <!-- <SelectTest v-on:selectUpdate="update" :id="1" :dataList="testData"></SelectTest> -->
     <!-- <SelectTest v-on:selectUpdate="update" :id="2" :dataList="testData"></SelectTest> -->
-    <SelectTest2 v-on:selectUpdate="update" :id="2" :testData="testData4"></SelectTest2>
+    <!-- <SelectTest2 v-on:selectUpdate="update" :id="2" :testData="testData4"></SelectTest2>
+    <SelectTest2 v-on:selectUpdate="update" :id="2" :testData="testData4"></SelectTest2> -->
+    <div v-for="(item, index) in this.testData4" :key="index">
+      <SelectTest2 v-on:selectUpdate="update" :id="index" :testData="item.menu"></SelectTest2>
+
+    </div>
+
 
     <!-- <MultiSelect v-on:selectUpdate="test2Update" :dataList="testData2"></MultiSelect> -->
     <!-- <MultiSelect :dataList="testData3"></MultiSelect> -->
@@ -46,9 +52,7 @@ export default {
       },
 
       testData4: [
-        { name: 'item1', isChecked: false },
-        { name: 'item2', isChecked: true },
-        { name: 'item3', isChecked: false }
+
       ],
 
       testData5: [
@@ -57,7 +61,7 @@ export default {
         { name: 'item34444', isChecked: true },
         { name: 'zz', isChecked: false }
 
-      ],
+      ]
 
     }
   },
@@ -65,7 +69,7 @@ export default {
   methods: {
     update: function (data) {
       console.log(data)
-      this.testData4 = this.testData5
+      // this.testData4 = this.testData5
     },
 
     test2Update: function (data) {
@@ -83,6 +87,27 @@ export default {
     const t1 = new CloseOutsideManager()
     const t2 = new CloseOutsideManager()
     console.log(t1 === t2)
+
+    setTimeout(() => {
+      // this.testData4 = [
+      //   { name: 'item1', isChecked: false },
+      //   { name: 'item2', isChecked: true },
+      //   { name: 'item3', isChecked: false }
+      // ]
+      this.testData4 = [
+        { menu: [
+          { name: 'item1', isChecked: false },
+          { name: 'item2', isChecked: true },
+          { name: 'item3', isChecked: false }
+        ], state: false },
+        { menu: [
+          { name: 'item1', isChecked: false },
+          { name: 'item2', isChecked: true },
+          { name: 'item3', isChecked: false }
+        ], state: false }
+
+      ]
+    }, 2000)
   }
 
 }
