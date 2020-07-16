@@ -1,34 +1,14 @@
 <template>
-  <div v-show="isShow" class="snackbar">xxxx
-    {{isShow}}
+  <div v-show="isShow" class="snackbar">
+    <div class="msg-wrapper">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['isShow'],
-  watch: {
-    isShow: function () {
-      console.log('changed')
-      setTimeout(() => {
-        this.$emit('input', false)
-      }, 2000)
-    }
-  }
-
-  // data: function () {
-  //   return {
-  //     isShow: false
-  //   }
-  // },
-  // methods: {
-  //   open () {
-  //     this.isShow = true
-  //     setTimeout(() => {
-  //       this.isShow = false
-  //     }, 2000)
-  //   }
-  // }
+  props: ['isShow']
 }
 </script>
 
@@ -38,7 +18,7 @@ export default {
   justify-content: center
   align-items: center
   width: 300px
-  height: 120px
+  height: 80px
   background-color: #333333
   border-radius: 4px
   position: absolute
@@ -47,5 +27,14 @@ export default {
   color: white
   // text-align: center
   box-shadow: 0.5px 0.5px 5px 0 #333333
+  .msg-wrapper
+    font-size: 20px
+    display: flex
+    width: 100%
+    height: 100%
+    justify-content: flex-end
+    align-items: flex-end
+    padding-right: 30px
+    padding-bottom: 30px
 
 </style>

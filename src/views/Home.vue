@@ -127,8 +127,12 @@
 
     <button @click="toPage(1)">p1</button>
     <button @click="toPage(2)">p2</button>
-    <Snackbar v-model="isSnackbarShow" :isShow="isSnackbarShow"></Snackbar>
-    <Confirm v-model="isConfirm" :isShow="isConfirm" v-on:confirm="confirmFn">Are you sure?</Confirm>
+    <Snackbar :isShow="isSnackbarShow">some message...</Snackbar>
+    <Confirm
+      class="confirm-wrapper"
+      v-model="isConfirm" v-show="isConfirm" v-on:confirm="confirmFn">
+      Are you sure?
+    </Confirm>
     <!-- <div class="xx"></div> -->
     <div v-bind:class="{'bg-cover': isCoverOn}"></div>
 
@@ -241,6 +245,9 @@ export default {
 
     showSnackbar: function () {
       this.isSnackbarShow = true
+      setTimeout(() => {
+        this.isSnackbarShow = false
+      }, 2000)
     },
 
     showConfirm: function () {

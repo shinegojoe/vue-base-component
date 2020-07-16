@@ -1,16 +1,19 @@
 <template>
   <div>
-    <MS v-on:selectUpdate="update" :testData="testData"></MS>
+    <MS v-on:selectUpdate="update" :itemList="testData" :headers="headers"></MS>
 
-    <div v-for="(item, index) in selectedList" :key="index">
+    <div class="mm-text" v-for="(item, index) in selectedList" :key="index">
       {{item}}
     </div>
+
+    <div class="mm-text">xxxx</div>
   </div>
 
 </template>
 
 <script>
 import MS from '@/views/MultiSelect.vue'
+
 export default {
   components: {
     MS
@@ -19,7 +22,8 @@ export default {
   data: function () {
     return {
       selectedList: new Map(),
-      testData: []
+      testData: [],
+      headers: []
     }
   },
 
@@ -59,14 +63,32 @@ export default {
         }
       ]
       return testData
+    },
+
+    getHeader: function () {
+      const headers = [
+        'device ID', 'address', 'address'
+      ]
+      return headers
     }
   },
 
   mounted: function () {
     setTimeout(() => {
       this.testData = this.getData()
+      this.headers = this.getHeader()
+
     }, 2000)
   }
 
 }
 </script>
+
+
+<style scoped lang="sass">
+// @import '@/sass/mixin_test.sass'
+
+.mm-text
+  // @import '@/sass/mixin_test.sass'
+  @include text-style($color: $primary, $size: 20px)
+</style>
