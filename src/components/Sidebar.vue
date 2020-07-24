@@ -23,7 +23,9 @@ export default {
         { path: 'about', name: 'Item2' },
         { path: 'test', name: 'Item4' },
         { path: 'tabPage', name: 'Tab' },
-        { path: 'multiSelect', name: 'MultiSelect' }
+        { path: 'multiSelect', name: 'MultiSelect' },
+        { path: 'rangeSlider', name: 'RangeSlider' },
+        { path: 'i18n', name: 'I18n' }
 
 
       ],

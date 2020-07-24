@@ -18,9 +18,11 @@
 
       <tr class="item">
         <td class="text-field">Single Checkbox</td>
-        <td><OptionSlider
+        <td>
+          <OptionSlider
           class="switch-wrapper"
-          id="testId" v-model="singleCheckbox" :isChecked="singleCheckbox"></OptionSlider>
+          id="testId" v-model="singleCheckbox" :isChecked="singleCheckbox">
+          </OptionSlider>
         </td>
         <td class="text-field">{{singleCheckbox}}</td>
       </tr>
@@ -54,7 +56,7 @@
             :id="item.id"
             :val="item.id">
           </RadioButton> -->
-          <div class="radio-wrapper-square">
+          <div class="radio-wrapper">
             <input v-model="radioSelected" name="xxx" type="radio" :id="item.id" :value="item.id">
           </div>
         </td>

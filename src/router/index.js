@@ -12,6 +12,27 @@ const routes = [
   },
 
   {
+    path: '/testPage',
+    name: 'TestPage',
+    component: () => import('../views/TestPage.vue')
+
+  },
+
+  {
+    path: '/i18n',
+    name: 'I18n',
+    component: () => import('../views/i18nPage.vue')
+
+  },
+
+  {
+    path: '/rangeSlider',
+    name: 'RangeSlider',
+    component: () => import('../views/RangeSlider.vue')
+
+  },
+
+  {
     path: '/multiSelect',
     name: 'multiSelect',
     component: () => import('../views/MultiSelectPage.vue')

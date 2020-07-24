@@ -2,13 +2,14 @@
  <div class="tab-wrapper">
    <div
      class="tab-head"
-     @click="switchTab(item.name)"
+     @click="switchTab(item)"
      v-bind:class="{ 'isActivate': item.state}"
      v-for="(item, index) in headList" :key="index">
      <div class="item">
        <div>{{item.name}}</div>
-       <div class="line" v-bind:class="{ 'a': item.state}"></div>
+       <div class="line" v-bind:class="{ 'a': item.state, 'last-line': item.name === ''}"></div>
      </div>
+
    </div>
  </div>
 </template>
@@ -19,59 +20,74 @@ export default {
 
   data: function () {
     return {
-      headList: undefined
-      // headList: [
-      //   { name: 'tab1', state: true },
-      //   { name: 'tab2', state: false },
-      //   { name: 'tab3', state: false }
-      // ]
+      tabMap: undefined,
+      headList: [],
+      currentPage: undefined
     }
   },
 
   methods: {
     headInit () {
-      const headList = []
-      for (const name of this.tabList) {
-        const item = { name: name, state: false }
-        headList.push(item)
+      const dataMap = new Map()
+      for (const item of this.tabList) {
+        dataMap.set(item.name, item)
       }
-      headList[0].state = true
-      return headList
+      return dataMap
     },
 
-    switchTab: function (name) {
-      for (const item of this.headList) {
-        if (item.name === name) {
-          item.state = true
-        } else {
-          item.state = false
+    switchTab: function (page) {
+      // console.log('name', page)
+      if (page.name !== this.currentPage.name) {
+        const newPage = this.tabMap.get(page.name)
+        newPage.state = true
+        this.currentPage.state = false
+        // this.tabMap.set(this.currentPage.name, this.currentPage)
+        // this.tabMap.set(newPage.name, newPage.name)
+        this.headList = this.getMapValues()
+        // console.log('current', this.currentPage)
+        this.currentPage = newPage
+        this.$emit('tabSwitch', this.currentPage)
+      }
+    },
+
+    checkCurrentPage: function () {
+      const headList = this.getMapValues()
+      for (const item of headList) {
+        console.log('item', item)
+        if (item.state) {
+          return item
         }
       }
-      console.log('name', name)
-      this.$emit('tabSwitch', name)
+    },
 
-      // this.$router.push('/tabPage/' + name)
+    getMapValues: function () {
+      return this.tabMap.values()
     }
   },
 
   mounted: function () {
-    this.headList = this.headInit()
-    this.$emit('tabSwitch', this.headList[0].name)
+    this.tabMap = this.headInit()
+    this.headList = this.getMapValues()
+    this.currentPage = this.checkCurrentPage()
+    this.$emit('tabSwitch', this.currentPage)
   }
 
 }
 </script>
  
+ 
 <style lang="sass" scoped>
 .tab-wrapper
   display: flex
   background-color: white
-  width: 1000px
-  justify-content: center
+  width: 920px
+  margin: 5px 15px
+  
+  // justify-content: center
   // border-bottom: 5px solid
 
 .tab-head
-  width: 200px
+  width: 150px
   height: 40px
   // background-color: green
   display: flex
@@ -93,7 +109,15 @@ export default {
     flex-direction: column
     align-items: center
     // justify-content: center
+  &:last-child
+    // background-color: red
+    height: 64px
+    width: 300px
+    cursor: auto
+    pointer-events: none
 
+    &:hover
+     opacity: 1
 .isActivate
   // box-sizing: border-box
   transition: 0.4s
@@ -113,10 +137,13 @@ export default {
 .line
   position: relative
   top: 10px
-  width: 200px
+  // width: 150px
+  width: 150px
   border: 1px solid #efefef
+.last-line
+  // width: 150px
+  width: 350px
 .a
   border: 1px solid #00a487
  
 </style>
-

@@ -5,7 +5,7 @@
     <!-- <SelectTest2 v-on:selectUpdate="update" :id="2" :testData="testData4"></SelectTest2>
     <SelectTest2 v-on:selectUpdate="update" :id="2" :testData="testData4"></SelectTest2> -->
     <div v-for="(item, index) in this.testData4" :key="index">
-      <SelectTest2 v-on:selectUpdate="update" :id="index" :testData="item.menu"></SelectTest2>
+      <SelectTest2 class="multi-dropdown-wrapper" v-on:selectUpdate="update" :id="index" :testData="item.menu"></SelectTest2>
 
     </div>
 
