@@ -1,3 +1,5 @@
+
+
 <template>
   <div class="table-container">
     <div class="header-wrapper">
@@ -35,6 +37,63 @@
 </template>
 
 <script>
+
+/*
+use:
+  <MS v-on:selectUpdate="update" :itemList="testData" :headers="headers"></MS>
+
+  item.xxxx change the item.property in init() and itemClick()
+  itemClick: function (item, index) {
+      this.itemList[index].isChecked = !this.itemList[index].isChecked
+      if (this.itemList[index].isChecked) {
+        this.dataMap.set(item.xxxx, item)
+      } else {
+        this.dataMap.delete(item.xxxx)
+      }
+      this.checkSelectAll()
+      this.$emit('selectUpdate', this.makeRes())
+
+    },
+  
+
+props:
+  itemList: '',
+  headers: ['device ID', 'address', 'address']
+
+emit: 
+  selectUpdate
+
+
+example:
+const testData = [
+        {
+          xaddr: "http://192.168.2.226:8080/onvif/device_service",
+          name: "HDC-713",
+          deviceId: "dce2ac0163c2",
+          model: "hdc713",
+          address: "192.168.2.226",
+          isChecked: true
+        },
+        {
+          xaddr: "http://192.168.2.24:81/onvif/device_service",
+          name: "ln",
+          deviceId: "3972fc68fc91",
+          model: "hdc715",
+          address: "192.168.2.24",
+          isChecked: true
+
+        },
+        {
+          xaddr: "http://192.168.2.225:81/onvif/device_service",
+          name: "ln",
+          deviceId: "b8016fad2a47",
+          model: "hdc715",
+          address: "192.168.2.225",
+          isChecked: true
+
+        }
+      ]
+*/
 export default {
   props: ['itemList', 'headers'],
   data: function () {
