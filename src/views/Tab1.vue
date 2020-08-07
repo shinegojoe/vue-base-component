@@ -2,7 +2,7 @@
   <div>
     tab1
     {{pageIndex}}
-    <Pagination v-model="pageIndex"></Pagination>
+    <Pagination :endIndex="20" :maxLength="11" v-model="pageIndex"></Pagination>
 
   </div>
 </template>

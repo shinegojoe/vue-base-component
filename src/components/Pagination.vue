@@ -19,10 +19,13 @@
 <script>
 import { ButtonFactory } from '@/models/buttonFactory.js'
 export default {
+  
+  props: ['endIndex', 'maxLength'],
+
   data: function () {
     return {
       buttons: [],
-      maxLength: 11,
+      // maxLength: 11,
       currentIndex: 1,
       isNextDisabled: false,
       isLastDisabled: true,
@@ -41,7 +44,7 @@ export default {
     },
 
     init: function () {
-      for (let i = 1; i <= 25; i++) {
+      for (let i = 1; i <= this.endIndex; i++) {
         this.buttons.push(i)
       }
       this.dataLength = this.buttons.length
@@ -49,6 +52,8 @@ export default {
       if (this.buttons.length >= this.maxLength) {
         // this.buttons = this.getShortButtons(this.buttons.length)
         this.shortData = this.getShortButtons(this.buttons.length)
+      } else {
+        this.shortData = this.buttons
       }
     },
 
@@ -88,7 +93,10 @@ export default {
       this.checkLeftBoundary()
       this.checkRightBoundary()
       // this.shortDataUpdate()
-      this.shortData = this.buttonFactory.getButton(index)
+      if (this.buttons.length >= this.maxLength) {
+        this.shortData = this.buttonFactory.getButton(index)
+
+      }
       // if (this.buttons.length >= this.maxLength) {
       //   this.buttons = this.getShortButtons()
       // }
@@ -99,7 +107,10 @@ export default {
       this.currentIndex += 1
       this.checkLeftBoundary()
       this.checkRightBoundary()
-      this.shortData = this.buttonFactory.getButton(this.currentIndex)
+      // this.shortData = this.buttonFactory.getButton(this.currentIndex)
+      if (this.buttons.length >= this.maxLength) {
+        this.shortData = this.buttonFactory.getButton(this.currentIndex)
+      }
       this.$emit('input', this.currentIndex)
     },
 
@@ -107,13 +118,16 @@ export default {
       this.currentIndex -= 1
       this.checkLeftBoundary()
       this.checkRightBoundary()
-      this.shortData = this.buttonFactory.getButton(this.currentIndex)
+      // this.shortData = this.buttonFactory.getButton(this.currentIndex)
+      if (this.buttons.length >= this.maxLength) {
+        this.shortData = this.buttonFactory.getButton(this.currentIndex)
+      }
       this.$emit('input', this.currentIndex)
     }
   },
 
   mounted: function () {
-    this.buttonFactory = new ButtonFactory(25, this.maxLength)
+    this.buttonFactory = new ButtonFactory(this.endIndex, this.maxLength)
     this.init()
   }
 }

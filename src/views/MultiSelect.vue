@@ -4,7 +4,7 @@
   <div class="table-container">
     <div class="header-wrapper">
       <div class="" @click="selectAllClick">
-        <div class="box-style" v-bind:class="{ 'box-checked': isSelectAll}"></div>
+        <div class="box-style" v-bind:class="{ 'box-checked': isSelectAll()}"></div>
       </div>
       <div v-for="(item, index) in headers" :key="index">
         <div class="head-text">{{item}}</div>
@@ -94,124 +94,143 @@ const testData = [
         }
       ]
 */
+import MultiSelectorModel from '@/models/multiSelectModel.js'
 export default {
   props: ['itemList', 'headers'],
   data: function () {
     return {
-      dataMap: new Map(),
-      isSelectAll: false
+      model: undefined
+      // dataMap: new Map(),
+      // isSelectAll: false
     }
   },
 
   // watch: {
-  //   testData: function () {
-  //     this.init()
+  //   itemList: function () {
+  //     console.log('watch')
+  //     this.model.init(this.itemList)
   //   }
   // },
 
   methods: {
+
+    isSelectAll () {
+      return this.model.isSelectAll
+    },
+
     init: function () {
-      for (const item of this.itemList) {
-        this.dataMap.set(item.deviceId, item)
-      }
-      this.checkSelectAll()
-      // this.$emit('selectUpdate', this.dataMap.values())
-      this.$emit('selectUpdate', this.makeRes())
+      // for (const item of this.itemList) {
+      //   this.dataMap.set(item.deviceId, item)
+      // }
+      // this.checkSelectAll()
+      // // this.$emit('selectUpdate', this.dataMap.values())
+      // this.$emit('selectUpdate', this.makeRes())
 
     },
 
     checkSelectAll: function () {
-      if (this.isSelectAll) {
-        for (const item of this.itemList) {
-          if (!item.isChecked) {
-            this.isSelectAll = false
-            return
-          }
-        }
-      } else {
-        if (this.itemList.length === 0) {
-          this.isSelectAll = false
-          return
-        }
-        for (const item of this.itemList) {
-          if (!item.isChecked) {
-            return
-          }
-        }
-        this.isSelectAll = true
-      }
+
+      // if (this.isSelectAll) {
+      //   for (const item of this.itemList) {
+      //     if (!item.isChecked) {
+      //       this.isSelectAll = false
+      //       return
+      //     }
+      //   }
+      // } else {
+      //   if (this.itemList.length === 0) {
+      //     this.isSelectAll = false
+      //     return
+      //   }
+      //   for (const item of this.itemList) {
+      //     if (!item.isChecked) {
+      //       return
+      //     }
+      //   }
+      //   this.isSelectAll = true
+      // }
     },
 
     itemClick: function (item, index) {
-      this.itemList[index].isChecked = !this.itemList[index].isChecked
-      if (this.itemList[index].isChecked) {
-        this.dataMap.set(item.deviceId, item)
-      } else {
-        this.dataMap.delete(item.deviceId)
-      }
-      this.checkSelectAll()
-      this.$emit('selectUpdate', this.makeRes())
+      this.model.itemClick(item, index)
+      // this.itemList[index].isChecked = !this.itemList[index].isChecked
+      // if (this.itemList[index].isChecked) {
+      //   this.dataMap.set(item.deviceId, item)
+      // } else {
+      //   this.dataMap.delete(item.deviceId)
+      // }
+      // this.checkSelectAll()
+      // this.$emit('selectUpdate', this.makeRes())
 
-      // this.$emit('selectUpdate', this.dataMap.values())
+      // // this.$emit('selectUpdate', this.dataMap.values())
     },
 
     selectAllClick: function () {
-      this.isSelectAll = !this.isSelectAll
-      if (this.isSelectAll) {
-        this.selectAll()
-      } else {
-        this.removeAll()
-      }
-      this.$emit('selectUpdate', this.makeRes())
+      this.model.selectAllClick()
+      // this.isSelectAll = !this.isSelectAll
+      // if (this.isSelectAll) {
+      //   this.selectAll()
+      // } else {
+      //   this.removeAll()
+      // }
+      // this.$emit('selectUpdate', this.makeRes())
 
-      // this.$emit('selectUpdate', this.dataMap.values())
+      // // this.$emit('selectUpdate', this.dataMap.values())
     },
 
     selectAll: function () {
-      // for (const item of this.itemList) {
+      // // for (const item of this.itemList) {
+      // //   item.isChecked = true
+      // //   this.dataMap.set(item.deviceId, item)
+      // // }
+      // for (const item of this.dataMap.values()) {
       //   item.isChecked = true
-      //   this.dataMap.set(item.deviceId, item)
       // }
-      for (const item of this.dataMap.values()) {
-        item.isChecked = true
-      }
     },
 
     removeAll: function () {
-      // for (const item of this.itemList) {
+      // // for (const item of this.itemList) {
+      // //   item.isChecked = false
+      // // }
+      // // this.dataMap.clear()
+      // // this.dataMap = new Map()
+      // for (const item of this.dataMap.values()) {
       //   item.isChecked = false
       // }
-      // this.dataMap.clear()
-      // this.dataMap = new Map()
-      for (const item of this.dataMap.values()) {
-        item.isChecked = false
-      }
-      // this.$emit('selectUpdate', this.makeRes())
+      // // this.$emit('selectUpdate', this.makeRes())
     },
 
     makeRes: function () {
-      const resList = []
-      for (const item of this.dataMap.values()) {
-        if (item.isChecked) {
-          resList.push(item)
-        }
-      }
-      // const resList = this.dataMap.values().filter((item, index, arr) => {
-      //   return item.isChecked
-      // })
-      return resList
+      // const resList = []
+      // for (const item of this.dataMap.values()) {
+      //   if (item.isChecked) {
+      //     resList.push(item)
+      //   }
+      // }
+      // // const resList = this.dataMap.values().filter((item, index, arr) => {
+      // //   return item.isChecked
+      // // })
+      // return resList
     }
   },
 
   created: function () {
-    this.init()
+    this.model = new MultiSelectorModel(this)
+    // this.init()
+    
+  },
+
+  mounted: function () {
+    this.model.init(this.itemList)
+
   },
 
   computed: {
     tableData: {
       get: function () {
         console.log('xxx')
-        this.init()
+        // this.init()
+        this.model.init(this.itemList)
         return this.itemList
       }
     }
