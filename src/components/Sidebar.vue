@@ -1,5 +1,5 @@
 <template>
-  <div id="side-bar">
+  <div id="side-bar" v-bind:class="sidebarTransition()">
     <div v-for="(item, index) in testData" :key="index">
       <div class="item" @click="toPage(item)">
         <div class="icon">
@@ -19,14 +19,47 @@ export default {
   data: function () {
     return {
       testData: [
-        { path: '/', name: 'Home' },
-        { path: 'about', name: 'Item2' },
-        { path: 'test', name: 'Item4' },
-        { path: 'tabPage', name: 'Tab' },
-        { path: 'multiSelect', name: 'MultiSelect' },
-        { path: 'rangeSlider', name: 'RangeSlider' },
-        { path: 'i18n', name: 'I18n' }
-
+        { 
+          path: '/', 
+          name: 'Home',
+          isOpen: false,
+          subPages: []
+        },
+        { path: 'about', 
+          name: 'Item2',
+          isOpen: false,
+          subPages: [] 
+        },
+        { 
+          path: 'test', 
+          name: 'Item4',
+          isOpen: false,
+          subPages: [] 
+        },
+        { 
+          path: 'tabPage', 
+          name: 'Tab',
+          isOpen: false,
+          subPages: []
+        },
+        { 
+          path: 'multiSelect',
+          name: 'MultiSelect',
+          isOpen: false,
+          subPages: []
+        },
+        { 
+          path: 'rangeSlider', 
+          name: 'RangeSlider' ,
+          isOpen: false,
+          subPages: []
+        },
+        { 
+          path: 'i18n', 
+          name: 'I18n',
+          isOpen: false,
+          subPages: []
+        }
 
       ],
 
@@ -46,6 +79,14 @@ export default {
       if (this.currentPage !== item.path) {
         this.currentPage = item.path
         this.$router.push(item.path)
+      }
+    },
+
+    sidebarTransition: function () {
+      if(this.isSidebarOpen) {
+        return 'xx'
+      } else {
+        return 'yy'
       }
     }
   },
@@ -75,11 +116,38 @@ export default {
 </script>
 
 <style scoped lang="sass">
+@keyframes fadeIn
+  from 
+    // height: 0
+    width: 0px
+    opacity: 0
+  to 
+    // height: auto
+    width: 240px
+    opacity: 1
+
+@keyframes fadeOut
+  from 
+    // height: 0
+    width: 240px
+    // opacity: 1
+  to 
+    // height: auto
+    width: 0
+    // opacity: 0
+.xx
+  animation: 0.3s fadeIn forwards
+.yy
+  opacity: 0
+  animation: 0.3s fadeOut forwards
+
+
 .item
   display: flex
   justify-content: flex-start
   align-items: center
   height: 40px
+  width: 240px
   // background-color: red
   color: #474594
   cursor: pointer

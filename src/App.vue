@@ -31,8 +31,8 @@
   .side-bar
     grid-area: side-bar
     width: 0px
-    visibility: hidden
-    opacity: 0
+    // visibility: hidden
+    // opacity: 0
     height: calc( 100vh - 100px )
     background-color: gray
     transition: 0.5s
