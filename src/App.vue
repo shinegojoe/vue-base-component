@@ -1,10 +1,10 @@
 <template>
   <div id="app" >
-    <Navbar id="nav"></Navbar>
+    <Navbar id="nav" v-on:sidebarUpdate="upup" :isSidebarOpen="isSidebarOpen"></Navbar>
     <div class="view">
       <router-view/>
     </div>
-    <Sidebar ref="sidebar" class="side-bar"></Sidebar>
+    <Sidebar :isSidebarOpen="isSidebarOpen" ref="sidebar" class="side-bar"></Sidebar>
   </div>
 </template>
 
@@ -51,7 +51,7 @@
   //   animation-duration: 0.5s
 
   .view
-    width: calc( 100vw - 200px )
+    width: calc( 100vw - 240px )
     height: calc( 100vh - 100px )
     grid-area: view
     // display: flex
@@ -69,13 +69,18 @@ export default {
     Sidebar,
     Navbar
   },
+  data: function () {
+    return {
+      isSidebarOpen: false
+        // sidebarRef: undefined
+    }
+  },
 
   methods: {
-    data: function () {
-      return {
-        // sidebarRef: undefined
-      }
+    upup: function (val) {
+      this.isSidebarOpen = val
     }
+
   },
 
   mounted: function () {
@@ -85,12 +90,12 @@ export default {
     // this.$store.commit('sidebar/sidebarRef', sidebarRef)
   },
 
-  computed: {
-    isSidebarOpen: {
-      get: function () {
-        return this.$store.getters['sidebar/isSidebarOpen']
-      }
-    }
-  }
+  // computed: {
+  //   isSidebarOpen: {
+  //     get: function () {
+  //       return this.$store.getters['sidebar/isSidebarOpen']
+  //     }
+  //   }
+  // }
 }
 </script>
